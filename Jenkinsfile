@@ -11,7 +11,7 @@ pipeline {
                     def environmentFile = 'Sample_environment.postman_environment.json'
 
                     // Run the test files using Mocha and Newman
-                    sh "mocha ${testFilesPath}/*.js"
+                    sh "mocha ${testFilesPath}.js"
                     sh "newman run ${collectionFile} --environment ${environmentFile}"
                 }
             }
