@@ -5,8 +5,11 @@ pipeline {
         stage('Test Case 1') {
             steps {
                 script {
-                    sh """
+                    sh '''
                         echo 'Running Test Case 1'
+                        npm install --global mocha chai
+
+                        echo "
                         const { expect } = require('chai');
 
                         describe('API tests', function () {
@@ -25,7 +28,10 @@ pipeline {
                             expect(jsonData.job).to.equal('leader');
                           });
                         });
-                    """
+                        " > test_case_1.js
+
+                        mocha test_case_1.js
+                    '''
                 }
             }
         }
@@ -33,8 +39,11 @@ pipeline {
         stage('Test Case 2') {
             steps {
                 script {
-                    sh """
+                    sh '''
                         echo 'Running Test Case 2'
+                        npm install --global mocha chai
+
+                        echo "
                         const { expect } = require('chai');
 
                         describe('API tests', function () {
@@ -59,7 +68,10 @@ pipeline {
                             expect(jsonData.job).to.eql('Manager');
                           });
                         });
-                    """
+                        " > test_case_2.js
+
+                        mocha test_case_2.js
+                    '''
                 }
             }
         }
@@ -67,8 +79,11 @@ pipeline {
         stage('Test Case 3') {
             steps {
                 script {
-                    sh """
+                    sh '''
                         echo 'Running Test Case 3'
+                        npm install --global mocha chai
+
+                        echo "
                         const { expect } = require('chai');
 
                         describe('API tests', function () {
@@ -107,7 +122,10 @@ pipeline {
                             expect(jsonData.support.text).to.eql('To keep ReqRes free, contributions towards server costs are appreciated!');
                           });
                         });
-                    """
+                        " > test_case_3.js
+
+                        mocha test_case_3.js
+                    '''
                 }
             }
         }
