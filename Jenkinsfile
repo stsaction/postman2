@@ -11,34 +11,58 @@ pipeline {
                 }
             }
         }
-
-        stage('Install Newman') {
-            steps {
-                script {
-                        // Install Newman globally
-                        sh 'apt-get update' 
-                        sh 'npm install -y newman'
-                }
-            }
+        stage('Checkout code') {
+          steps {
+            checkout scm
+          }
         }
 
-        stage('Run Tests') {
-            steps {
-                script {
-                    // Define the paths to the collection and environment files
-                    def collectionFile = '/var/lib/jenkins/projects/Sample/Sample_APIs.postman_collection.json'
-                    def environmentFile = '/var/lib/jenkins/projects/Sample/Sample_environment.postman_environment.json'
-
-                    // Read the test cases file
-                    def testCasesFile = readFile('/var/lib/jenkins/projects/Sample/testCases.js')
-
-                    // Generate a temporary test file with the test cases
-                    def tempTestFile = writeFile file: '/var/lib/jenkins/projects/Sample/tempTestFile.js', text: testCasesFile
-
-                    // Run the test file using Newman
-                    sh "newman run ${collectionFile} --environment ${environmentFile} --delay-request 1000 --script ${tempTestFile}"
-                }
-            }
+        stage('Install Node.js and npm') {
+          steps {
+            tool 'node14'
+          }
         }
-    }
+
+        stage('Install Dependencies') {
+          steps {
+            sh 'npm install --global mocha chai'
+          }
+        }
+
+        stage('Install Postman SDK') {
+          steps {
+            sh 'npm install --global postman-collection@latest postman-runtime@latest'
+          }
+        }
+
+        stage('Install Chai') {
+          steps {
+            sh 'npm install --save-dev chai'
+          }
+        }
+
+        stage('Run Postman tests - Create') {
+          steps {
+            sh 'mocha create-test-scripts.js --reporter spec || exit 1'
+          }
+        }
+
+        stage('Run Postman tests - Delete') {
+          steps {
+            sh 'mocha delete-test-scripts.js --reporter spec || exit 1'
+          }
+        }
+
+        stage('Run Postman tests - Get') {
+          steps {
+            sh 'mocha get-test-scripts.js --reporter spec || exit 1'
+          }
+        }
+
+        stage('Run Postman tests - Update') {
+          steps {
+            sh 'mocha update-test-scripts.js --reporter spec || exit 1'
+          }
+        }
+      }
 }
