@@ -18,6 +18,7 @@ pipeline {
                         // Install necessary dependencies using npm locally
                         sh 'npm init -y'
                         sh 'npm install --no-save chai mocha newman esm'
+                        sh 'npm install --save-dev esm'
                     }
                 }
             }
