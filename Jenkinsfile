@@ -2,11 +2,14 @@ pipeline {
     agent any
 
     stages {
-        stage('Prerequisites') {
+        stage('Install Dependencies') {
             steps {
                 script {
-                    // Install necessary dependencies using npm
-                    sh 'npm install -g chai mocha newman'
+                    // Create a directory to store the locally installed packages
+                    dir('node_modules') {
+                        // Install necessary dependencies using npm locally
+                        sh 'npm install chai mocha newman'
+                    }
                 }
             }
         }
