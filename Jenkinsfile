@@ -28,7 +28,7 @@ pipeline {
             steps {
                 script {
                     // Define the paths to the test files, collections, and environment
-                    def testFilesPath = '/var/lib/jenkins/projects/Sample/create-test-scripts'
+                    def testFilesPath = '/var/lib/jenkins/projects/Sample/create-test-scripts.js'
                     def collectionFile = '/var/lib/jenkins/projects/Sample/Sample_APIs.postman_collection.json'
                     def environmentFile = '/var/lib/jenkins/projects/Sample/Sample_environment.postman_environment.json'
 
