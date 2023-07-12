@@ -14,15 +14,16 @@ pipeline {
                     sh 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash'
 
                     // Load NVM into the current shell
-                    sh '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"'
+                    sh '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"'
 
                     // Install Node.js using NVM
                     sh "nvm install ${NODE_VERSION}"
 
                     // Use the installed Node.js version
                     sh "nvm use ${NODE_VERSION}"
-                    // Install necessary dependencies
-                    sh 'sudo npm install -g chai mocha newman'
+
+                    // Install necessary dependencies using npm
+                    sh 'npm install chai mocha newman'
                 }
             }
         }
