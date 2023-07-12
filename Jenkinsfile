@@ -1,27 +1,10 @@
 pipeline {
     agent any
 
-    environment {
-        NVM_DIR = '/var/lib/jenkins/.nvm'
-        NODE_VERSION = '14.17.0'
-    }
-
     stages {
         stage('Prerequisites') {
             steps {
                 script {
-                    // Install NVM
-                    sh 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash'
-
-                    // Load NVM into the current shell
-                    sh 'source $HOME/.nvm/nvm.sh'
-
-                    // Install Node.js using NVM
-                    sh "nvm install ${NODE_VERSION}"
-
-                    // Use the installed Node.js version
-                    sh "nvm use ${NODE_VERSION}"
-
                     // Install necessary dependencies using npm
                     sh 'npm install -g chai mocha newman'
                 }
