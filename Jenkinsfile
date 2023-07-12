@@ -18,7 +18,7 @@ pipeline {
                     // Change to the project directory
                     dir('/var/lib/jenkins/projects/Sample') {
                         // Install Newman globally
-                        sh 'npm install -g newman'
+                        sh 'sudo npm install -g newman'
                     }
                 }
             }
