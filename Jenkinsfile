@@ -8,7 +8,7 @@ pipeline {
                     // Create a directory to store the locally installed packages
                     dir('node_modules') {
                         // Install necessary dependencies using npm locally
-                        sh 'npm install chai mocha newman @babel/register'
+                        sh 'npm install chai mocha newman esm'
                     }
                 }
             }
@@ -23,7 +23,7 @@ pipeline {
                     def environmentFile = 'Sample_environment.postman_environment.json'
 
                     // Run the test files using Mocha and Newman with @babel/register
-                    sh "npx mocha --require @babel/register ${testFilesPath}.js"
+                    sh "npx mocha --require esm ${testFilesPath}.js"
                     sh "npx newman run ${collectionFile} --environment ${environmentFile}"
                 }
             }
