@@ -6,7 +6,7 @@ pipeline {
             steps {
                 script {
                     // Install necessary dependencies
-                    sh 'sudo npm install -g chai mocha newman'
+                    sh 'npm install -g chai mocha newman'
                 }
             }
         }
