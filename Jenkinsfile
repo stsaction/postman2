@@ -18,50 +18,54 @@ pipeline {
         }
 
         stage('Install Node.js and npm') {
+            tools {
+                nodejs 'node14'
+            }
             steps {
-                tool 'node14'
+                sh 'node --version'
+                sh 'npm --version'
             }
         }
 
         stage('Install Dependencies') {
             steps {
-                sh 'npm install --global mocha chai'
+                sh 'npm install --global mocha@7.2.0 chai@4.3.4'
             }
         }
 
         stage('Install Postman SDK') {
             steps {
-                sh 'npm install --global postman-collection@latest postman-runtime@latest'
+                sh 'npm install --global postman-collection@4.1.7 postman-runtime@7.32.3'
             }
         }
 
         stage('Install Chai') {
             steps {
-                sh 'npm install --save-dev chai'
+                sh 'npm install --save-dev chai@4.3.7'
             }
         }
 
         stage('Run Postman tests - Create') {
             steps {
-                sh 'mocha create-test-scripts.js --reporter spec || exit 1'
+                sh 'npx mocha create-test-scripts.js --reporter spec'
             }
         }
 
         stage('Run Postman tests - Delete') {
             steps {
-                sh 'mocha delete-test-scripts.js --reporter spec || exit 1'
+                sh 'npx mocha delete-test-scripts.js --reporter spec'
             }
         }
 
         stage('Run Postman tests - Get') {
             steps {
-                sh 'mocha get-test-scripts.js --reporter spec || exit 1'
+                sh 'npx mocha get-test-scripts.js --reporter spec'
             }
         }
 
         stage('Run Postman tests - Update') {
             steps {
-                sh 'mocha update-test-scripts.js --reporter spec || exit 1'
+                sh 'npx mocha update-test-scripts.js --reporter spec'
             }
         }
     }
