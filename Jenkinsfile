@@ -8,7 +8,7 @@ pipeline {
                     // Create a directory to store the locally installed packages
                     dir('node_modules') {
                         // Install necessary dependencies using npm locally
-                        sh 'npm install chai mocha newman esm'
+                        sh 'npm install --no-save chai mocha newman esm'
                     }
                 }
             }
