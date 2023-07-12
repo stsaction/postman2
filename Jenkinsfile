@@ -16,7 +16,7 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                sh 'npm install --global mocha chai'
+                sh 'npm install mocha chai'
             }
         }
 
