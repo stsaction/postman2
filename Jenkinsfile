@@ -16,7 +16,7 @@ pipeline {
             steps {
                 script {
                         // Install Newman globally
-                        sh 'sudo npm install -g newman'
+                        sh 'npm install -g newman'
                 }
             }
         }
