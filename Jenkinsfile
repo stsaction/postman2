@@ -2,12 +2,21 @@ pipeline {
     agent any
 
     stages {
+         stage('Prepare Environment') {
+            steps {
+                script {
+                    // Create a directory for the project and give permissions to Jenkins user
+                    sh 'mkdir -p /var/lib/jenkins/projects/Sample'
+                    sh 'chown -R jenkins:jenkins /var/lib/jenkins/projects/Sample'
+                }
+            }
+        }
         stage('Install Dependencies') {
             steps {
                 script {
-                    // Create a directory to store the locally installed packages
-                    dir('node_modules') {
+                    dir('/var/lib/jenkins/projects/Sample') {
                         // Install necessary dependencies using npm locally
+                        sh 'npm init -y'
                         sh 'npm install --no-save chai mocha newman esm'
                     }
                 }
