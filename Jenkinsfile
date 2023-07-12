@@ -2,6 +2,14 @@ pipeline {
     agent any
 
     stages {
+        stage('Prerequisites') {
+            steps {
+                script {
+                    // Install necessary dependencies
+                    sh 'npm install -g chai mocha newman'
+                }
+            }
+        }
         stage('Test') {
             steps {
                 script {
