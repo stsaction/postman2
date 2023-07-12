@@ -2,67 +2,62 @@ pipeline {
     agent any
 
     stages {
-        stage('Prepare Environment') {
-            steps {
-                script {
-                    // Create a directory for the project and give permissions to Jenkins user
-                    sh 'mkdir -p /var/lib/jenkins/projects/Sample'
-                    sh 'chown -R jenkins:jenkins /var/lib/jenkins/projects/Sample'
-                }
-            }
-        }
         stage('Checkout code') {
-          steps {
-            checkout scm
-          }
+            steps {
+                checkout scm
+            }
         }
 
         stage('Install Node.js and npm') {
-          steps {
-            tool 'node14'
-          }
+            steps {
+                tool 'NodeJS14'
+            }
         }
 
         stage('Install Dependencies') {
-          steps {
-            sh 'npm install --global mocha chai'
-          }
+            steps {
+                sh 'npm install --global mocha chai'
+            }
         }
 
         stage('Install Postman SDK') {
-          steps {
-            sh 'npm install --global postman-collection@latest postman-runtime@latest'
-          }
+            steps {
+                sh 'npm install --global postman-collection@latest postman-runtime@latest'
+            }
         }
 
         stage('Install Chai') {
-          steps {
-            sh 'npm install --save-dev chai'
-          }
+            steps {
+                sh 'npm install --save-dev chai'
+            }
         }
 
         stage('Run Postman tests - Create') {
-          steps {
-            sh 'mocha create-test-scripts.js --reporter spec || exit 1'
-          }
+            steps {
+                sh 'mocha create-test-scripts.js --reporter spec'
+                catchError { error -> currentBuild.result = 'FAILURE' }
+            }
         }
 
         stage('Run Postman tests - Delete') {
-          steps {
-            sh 'mocha delete-test-scripts.js --reporter spec || exit 1'
-          }
+            steps {
+                sh 'mocha delete-test-scripts.js --reporter spec'
+                catchError { error -> currentBuild.result = 'FAILURE' }
+            }
         }
 
         stage('Run Postman tests - Get') {
-          steps {
-            sh 'mocha get-test-scripts.js --reporter spec || exit 1'
-          }
+            steps {
+                sh 'mocha get-test-scripts.js --reporter spec'
+                catchError { error -> currentBuild.result = 'FAILURE' }
+            }
         }
 
         stage('Run Postman tests - Update') {
-          steps {
-            sh 'mocha update-test-scripts.js --reporter spec || exit 1'
-          }
+            steps {
+                sh 'mocha update-test-scripts.js --reporter spec'
+                catchError { error -> currentBuild.result = 'FAILURE' }
+            }
         }
-      }
+    }
 }
