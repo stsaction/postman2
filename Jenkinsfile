@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     stages {
-         stage('Prepare Environment') {
+        stage('Prepare Environment') {
             steps {
                 script {
                     // Create a directory for the project and give permissions to Jenkins user
@@ -11,30 +11,29 @@ pipeline {
                 }
             }
         }
-        stage('Install Dependencies') {
+
+        stage('Install Newman') {
             steps {
                 script {
+                    // Change to the project directory
                     dir('/var/lib/jenkins/projects/Sample') {
-                        // Install necessary dependencies using npm locally
-                        sh 'npm init -y'
-                        sh 'npm install --no-save chai mocha newman esm'
-                        sh 'npm install --save-dev esm'
+                        // Install Newman globally
+                        sh 'npm install -g newman'
                     }
                 }
             }
         }
 
-        stage('Test') {
+        stage('Run Tests') {
             steps {
                 script {
-                    // Define the path to the test files, collections, and environments
-                    def testFilesPath = 'create-test-scripts'
-                    def collectionFile = 'Sample_APIs.postman_collection.json'
-                    def environmentFile = 'Sample_environment.postman_environment.json'
+                    // Define the paths to the test files, collections, and environment
+                    def testFilesPath = '/var/lib/jenkins/projects/Sample/create-test-scripts'
+                    def collectionFile = '/var/lib/jenkins/projects/Sample/Sample_APIs.postman_collection.json'
+                    def environmentFile = '/var/lib/jenkins/projects/Sample/Sample_environment.postman_environment.json'
 
-                    // Run the test files using Mocha and Newman with @babel/register
-                    sh "npx mocha --require esm ${testFilesPath}.js"
-                    sh "npx newman run ${collectionFile} --environment ${environmentFile}"
+                    // Run the test files using Newman
+                    sh "newman run ${collectionFile} --environment ${environmentFile}"
                 }
             }
         }
